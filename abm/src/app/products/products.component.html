@@ -1,0 +1,24 @@
+<div class="products-container">
+  <h1>Products</h1>
+  <p>Product management in ABM app</p>
+
+  <!-- Product Form -->
+  <h2>{{ selectedProduct ? 'Edit Product' : 'Add Product' }}</h2>
+  <form (ngSubmit)="submitForm()">
+    <input type="text" placeholder="Name" [(ngModel)]="formName" name="name">
+    <input type="number" placeholder="Price" [(ngModel)]="formPrice" name="price">
+    <input type="number" placeholder="Stock" [(ngModel)]="formStock" name="stock">
+    <button type="submit">{{ selectedProduct ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="clearSelection()" *ngIf="selectedProduct">Cancel</button>
+  </form>
+
+  <!-- Product List -->
+  <h2>Product List</h2>
+  <ul>
+    <li *ngFor="let p of getProducts()">
+      {{ p.name }} - {{ p.price | currency }} (Stock: {{ p.stock }})
+      <button (click)="selectProduct(p)">Edit</button>
+      <button (click)="deleteProduct(p.id)">Delete</button>
+    </li>
+  </ul>
+</div>
