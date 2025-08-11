@@ -1,0 +1,7 @@
+<form (ngSubmit)="submitForm()">
+  <input type="text" [(ngModel)]="name" name="name" placeholder="Nombre">
+  <input type="number" [(ngModel)]="price" name="price" placeholder="Precio">
+  <input type="number" [(ngModel)]="stock" name="stock" placeholder="Stock">
+  <button type="submit">{{ product ? 'Actualizar' : 'Agregar' }}</button>
+  <button type="button" (click)="cancel.emit()">Cancelar</button>
+</form>

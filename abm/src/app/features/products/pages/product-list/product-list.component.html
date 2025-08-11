@@ -1,0 +1,15 @@
+<h1>Productos</h1>
+
+<app-product-form
+  [product]="selectedProduct"
+  (save)="onSave($event)"
+  (cancel)="onCancel()">
+</app-product-form>
+
+<ul>
+  <li *ngFor="let p of products">
+    {{ p.name }} - {{ p.price | currency }} - Stock: {{ p.stock }}
+    <button (click)="onEdit(p)">Editar</button>
+    <button (click)="onDelete(p.id)">Eliminar</button>
+  </li>
+</ul>
