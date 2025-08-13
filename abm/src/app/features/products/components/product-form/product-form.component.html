@@ -1,7 +1,14 @@
-<form (ngSubmit)="submitForm()">
-  <input type="text" [(ngModel)]="name" name="name" placeholder="Nombre">
-  <input type="number" [(ngModel)]="price" name="price" placeholder="Precio">
-  <input type="number" [(ngModel)]="stock" name="stock" placeholder="Stock">
-  <button type="submit">{{ product ? 'Actualizar' : 'Agregar' }}</button>
+<h2>{{ product ? 'Editar producto' : 'Crear producto' }}</h2>
+
+<form class="form" (ngSubmit)="submitForm()">
+  <input type="text" [(ngModel)]="name" name="name" placeholder="Nombre" required>
+  <input type="number" [(ngModel)]="price" name="price" placeholder="Precio" required>
+  <input type="number" [(ngModel)]="stock" name="stock" placeholder="Stock" required>
+
+  <button type="submit">
+    {{ product ? 'Actualizar' : 'Agregar' }}
+  </button>
+
   <button type="button" (click)="cancel.emit()">Cancelar</button>
 </form>
+

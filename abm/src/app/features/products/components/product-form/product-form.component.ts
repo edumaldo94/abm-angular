@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../../shared/models/product.models';
-import { ProductService } from '../../services/product.services'; // Importa el servicio
 
 @Component({
   selector: 'app-product-form',
@@ -11,7 +10,7 @@ import { ProductService } from '../../services/product.services'; // Importa el 
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnChanges {
   @Input() product: Product | null = null;
   @Output() save = new EventEmitter<Omit<Product, 'id'>>();
   @Output() cancel = new EventEmitter<void>();
@@ -20,13 +19,13 @@ export class ProductFormComponent {
   price = 0;
   stock = 0;
 
-  constructor(private productService: ProductService) {} // Inyecta el servicio
-
-  ngOnChanges() {
-    if (this.product) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['product'] && this.product) {
       this.name = this.product.name;
       this.price = this.product.price;
       this.stock = this.product.stock;
+    } else {
+      this.clearForm();
     }
   }
 
@@ -35,9 +34,7 @@ export class ProductFormComponent {
       alert('Datos inválidos');
       return;
     }
-    // Guarda el producto usando el servicio
-    this.productService.create({ name: this.name, price: this.price, stock: this.stock });
-    alert('Producto creado');
+    this.save.emit({ name: this.name, price: this.price, stock: this.stock });
     this.clearForm();
   }
 

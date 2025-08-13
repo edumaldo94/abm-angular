@@ -1,0 +1,110 @@
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Contenedor centrado */
+.table-container {
+  max-width: 900px; /* ancho máximo en pantallas grandes */
+  margin: 0 auto;
+  padding: 0 1rem;
+  overflow-x: auto; /* scroll horizontal en pantallas pequeñas */
+}
+
+/* Botón crear */
+button {
+  padding: 8px 16px;
+  margin-bottom: 1rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+/* Tabla estilizada */
+table {
+  width: 100%;
+  min-width: 600px; /* evita que en pantallas chicas se rompa */
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
+  thead {
+    background-color: #007bff;
+    color: white;
+  }
+
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap; /* evita que los textos se corten feo */
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #ddd;
+
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+
+  /* Botones de acción */
+  td button {
+    margin-right: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+
+  td button:first-child {
+    background-color: #ffc107;
+    color: #000;
+
+    &:hover {
+      background-color: #e0a800;
+    }
+  }
+
+  td button:last-child {
+    background-color: #dc3545;
+    color: white;
+
+    &:hover {
+      background-color: #a71d2a;
+    }
+  }
+}
+
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 500px;
+  width: 100%;
+}
