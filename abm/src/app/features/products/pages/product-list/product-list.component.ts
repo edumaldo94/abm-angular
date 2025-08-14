@@ -12,7 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  products: Product[] = [];
+  public products: Product[] = [];
   selectedProduct: Product | null = null;
   isModalOpen = false;
 

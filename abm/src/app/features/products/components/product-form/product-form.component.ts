@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Product } from '../../../../shared/models/product.models';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })
@@ -15,32 +16,39 @@ export class ProductFormComponent implements OnChanges {
   @Output() save = new EventEmitter<Omit<Product, 'id'>>();
   @Output() cancel = new EventEmitter<void>();
 
-  name = '';
-  price = 0;
-  stock = 0;
+  form: FormGroup;
 
-  ngOnChanges(changes: SimpleChanges): void {
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0.01)]],
+      stock: [0, [Validators.required, Validators.min(0)]]
+    });
+
+    // Validación reactiva con RxJS
+    this.form.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(values => {
+        if (values.price > 1000) {
+          console.warn('⚠ Precio muy alto');
+        }
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['product'] && this.product) {
-      this.name = this.product.name;
-      this.price = this.product.price;
-      this.stock = this.product.stock;
+      this.form.patchValue(this.product);
     } else {
-      this.clearForm();
+      this.form.reset({ name: '', price: 0, stock: 0 });
     }
   }
 
   submitForm() {
-    if (!this.name || this.price <= 0 || this.stock < 0) {
+    if (this.form.invalid) {
       alert('Datos inválidos');
       return;
     }
-    this.save.emit({ name: this.name, price: this.price, stock: this.stock });
-    this.clearForm();
-  }
-
-  clearForm() {
-    this.name = '';
-    this.price = 0;
-    this.stock = 0;
+    this.save.emit(this.form.value);
+    this.form.reset({ name: '', price: 0, stock: 0 });
   }
 }

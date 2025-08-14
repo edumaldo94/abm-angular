@@ -5,8 +5,7 @@ import { ProductFormComponent } from './features/products/components/product-for
 
 export const routes: Routes = [
   { path: '', redirectTo: 'products/list', pathMatch: 'full' },
-  { path: 'products/list', component: ProductListComponent },
-  { path: 'products', component: ProductFormComponent } // Nueva ruta para el formulario
+  { path: 'products/list', component: ProductListComponent }
 ];
 
 @NgModule({

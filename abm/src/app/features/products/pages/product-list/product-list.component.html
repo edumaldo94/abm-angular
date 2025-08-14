@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>#</th>
       <th>Nombre</th>
       <th>Precio</th>
       <th>Stock</th>
@@ -12,13 +13,20 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let p of products">
-      <td>{{ p.name }}</td>
-      <td>{{ p.price | currency:'USD':'symbol' }}</td>
-      <td>{{ p.stock }}</td>
+    <tr *ngFor="
+      let pro of products;
+      let i = index
+      let isFirst = first;
+      let isLast = last;
+      let isEven = even;
+      ">
+      <td >{{ i + 1 }}</td>
+      <td>{{ pro.name }}</td>
+      <td>{{ pro.price | currency:'USD':'symbol' }}</td>
+      <td>{{ pro.stock }}</td>
       <td>
-        <button (click)="onEdit(p)">Editar</button>
-        <button (click)="onDelete(p.id)">Eliminar</button>
+        <button (click)="onEdit(pro)">Editar</button>
+        <button (click)="onDelete(pro.id)">Eliminar</button>
       </td>
     </tr>
   </tbody>

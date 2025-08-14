@@ -1,14 +1,24 @@
 <h2>{{ product ? 'Editar producto' : 'Crear producto' }}</h2>
 
-<form class="form" (ngSubmit)="submitForm()">
-  <input type="text" [(ngModel)]="name" name="name" placeholder="Nombre" required>
-  <input type="number" [(ngModel)]="price" name="price" placeholder="Precio" required>
-  <input type="number" [(ngModel)]="stock" name="stock" placeholder="Stock" required>
+<form class="form" [formGroup]="form" (ngSubmit)="submitForm()">
+  <input type="text" formControlName="name" placeholder="Nombre">
+  <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+    El nombre es obligatorio.
+  </div>
 
-  <button type="submit">
+  <input type="number" formControlName="price" placeholder="Precio">
+  <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched">
+    El precio debe ser mayor a 0.
+  </div>
+
+  <input type="number" formControlName="stock" placeholder="Stock">
+  <div *ngIf="form.get('stock')?.invalid && form.get('stock')?.touched">
+    El stock no puede ser negativo.
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">
     {{ product ? 'Actualizar' : 'Agregar' }}
   </button>
 
   <button type="button" (click)="cancel.emit()">Cancelar</button>
 </form>
-
