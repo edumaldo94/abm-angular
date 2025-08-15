@@ -1,19 +1,38 @@
-<!--    <p>user-form works!</p>
+<h2>{{ user ? 'Editar usuario' : 'Crear usuario' }}</h2>
 
-    <form class="form" [formGroup]="form" (ngSubmit)="submitForm()">
-      <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-      <input type="text" formControlName="name" placeholder="Nombre" class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm mt-1">
-        El nombre es obligatorio.
-      </div>
+<form class="form" [formGroup]="form" (ngSubmit)="submitForm()">
 
-      <label for="email" class="block text-sm font-medium text-gray-700 mt-4">Email</label>
-      <input type="email" formControlName="email" placeholder="Email" class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm mt-1">
-        El email es obligatorio.
-      </div>
+  <!-- Nombre -->
+  <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+  <input type="text" formControlName="name" placeholder="Nombre"
+    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+  <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm mt-1">
+    El nombre es obligatorio.
+  </div>
 
-      <button type="submit" [disabled]="form.invalid" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
-        {{ user ? 'Actualizar' : 'Crear' }} Usuario
-      </button>
--->
+  <!-- Rol -->
+  <label for="role" class="block text-sm font-medium text-gray-700 mt-4">Rol</label>
+  <select formControlName="role"
+    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <option value="" disabled selected>Seleccione un rol</option>
+    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+  </select>
+  <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="text-red-500 text-sm mt-1">
+    El rol es obligatorio.
+  </div>
+
+  <!-- Email -->
+  <label for="email" class="block text-sm font-medium text-gray-700 mt-4">Email</label>
+  <input type="email" formControlName="email" placeholder="Email"
+    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+  <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm mt-1">
+    El email es obligatorio.
+  </div>
+
+  <!-- Botón -->
+  <button type="submit" [disabled]="form.invalid"
+    class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
+    {{ user ? 'Actualizar' : 'Crear' }} Usuario
+  </button>
+
+</form>

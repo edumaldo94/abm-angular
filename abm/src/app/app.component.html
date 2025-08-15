@@ -4,14 +4,19 @@
   <app-header></app-header>
 
   <!-- Contenido principal -->
-  <div class="flex overflow-hidden ">
+  <div class="flex flex-1 overflow-hidden">
     <app-sidebar></app-sidebar>
+
+    <!-- Este main ocupa todo el espacio disponible -->
     <main class="flex-1 p-4 overflow-auto">
-      <router-outlet></router-outlet>
+      <div class="min-h-full flex flex-col">
+        <router-outlet></router-outlet>
+      </div>
     </main>
   </div>
 
-  <!-- Footer fijo abajo -->
+  <!-- Footer fijo al fondo -->
   <app-footer></app-footer>
 
 </div>
+

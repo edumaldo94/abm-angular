@@ -31,4 +31,9 @@ export class UserService {
     this.storage.setItem(this.storageKey, users);
     return updatedUser;
   }
+
+  delete(id: number): void {
+    const users = this.getAll().filter(u => u.id !== id);
+    this.storage.setItem(this.storageKey, users);
+  }
 }
