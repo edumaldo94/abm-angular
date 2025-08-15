@@ -1,8 +1,17 @@
+<div class="flex flex-col min-h-screen">
 
-<h1>Hola</h1>
+  <!-- Header -->
+  <app-header></app-header>
 
-<p>Bienvenido a la aplicaciòn ABM</p>
+  <!-- Contenido principal -->
+  <div class="flex overflow-hidden ">
+    <app-sidebar></app-sidebar>
+    <main class="flex-1 p-4 overflow-auto">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 
-<div>http://localhost:4200/</div>
+  <!-- Footer fijo abajo -->
+  <app-footer></app-footer>
 
-<router-outlet></router-outlet>
+</div>

@@ -4,10 +4,12 @@ import { ProductService } from '../../services/product.services';
 import { Product } from '../../../../shared/models/product.models';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, ProductFormComponent,NgxPaginationModule],
+  imports: [CommonModule, ProductFormComponent,NgxPaginationModule, FormsModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
@@ -17,6 +19,8 @@ export class ProductListComponent implements OnInit {
   isModalOpen = false;
 
   page: number = 1; // 👈 Agregado: controla la página actual
+searchText: string = '';
+itemsPerPage: number = 5;
 
   constructor(private productService: ProductService) {}
 
@@ -58,4 +62,14 @@ export class ProductListComponent implements OnInit {
     this.isModalOpen = false;
     this.selectedProduct = null;
   }
+
+
+// Método para filtrar productos según el buscador
+get filteredProducts(): Product[] {
+  if (!this.searchText) return this.products;
+  return this.products.filter(p =>
+    p.name.toLowerCase().includes(this.searchText.toLowerCase())
+  );
+}
+
 }

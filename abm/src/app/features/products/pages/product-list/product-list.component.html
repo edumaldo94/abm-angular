@@ -1,45 +1,78 @@
-<h1>Productos</h1>
+<div class="max-w-6xl mx-auto p-4 space-y-6 pt-20">
+  <!-- pt-20 agrega padding-top suficiente para que no tape el header -->
+  <!-- Header de página -->
 
-<button (click)="onCreate()">Crear producto</button>
-<div class="table-container">
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Stock</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="
-      let pro of products;
-      let i = index
-      let isFirst = first;
-      let isLast = last;
-      let isEven = even;
-      ">
-      <td >{{ i + 1 }}</td>
-      <td>{{ pro.name }}</td>
-      <td>{{ pro.price | currency:'USD':'symbol' }}</td>
-      <td>{{ pro.stock }}</td>
-      <td>
-        <button (click)="onEdit(pro)">Editar</button>
-        <button (click)="onDelete(pro.id)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<!-- Modal -->
-<div class="modal-backdrop" *ngIf="isModalOpen">
-  <div class="modal">
-    <app-product-form
-      [product]="selectedProduct"
-      (save)="onSave($event)"
-      (cancel)="onCancel()">
-    </app-product-form>
+
+
+
+   <!-- Buscador -->
+ <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+
+    <button
+      (click)="onCreate()"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
+      Crear producto
+    </button>
+
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      placeholder="Buscar producto..."
+      class="border border-gray-300 rounded px-3 py-2 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
   </div>
+
+  <!-- Tabla con paginación -->
+  <div class="overflow-x-auto rounded shadow">
+    <table class="min-w-full bg-white divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-white font-medium">#</th>
+          <th class="px-4 py-2 text-left text-white font-medium">Nombre</th>
+          <th class="px-4 py-2 text-left text-white font-medium">Precio</th>
+          <th class="px-4 py-2 text-left text-white font-medium">Stock</th>
+          <th class="px-4 py-2 text-left text-white font-medium">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let pro of filteredProducts | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; let i = index" class="hover:bg-gray-50">
+          <td class="px-4 py-2">{{ i + 1 + (page-1)*itemsPerPage }}</td>
+          <td class="px-4 py-2">{{ pro.name }}</td>
+          <td class="px-4 py-2">{{ pro.price | currency:'USD':'symbol' }}</td>
+          <td class="px-4 py-2">{{ pro.stock }}</td>
+          <td class="px-4 py-2 flex gap-2">
+            <button (click)="onEdit(pro)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded transition">Editar</button>
+            <button (click)="onDelete(pro.id)" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Controles de paginación -->
+<div class="flex justify-end mt-4">
+  <pagination-controls
+    (pageChange)="page = $event"
+    [maxSize]="5"
+    [directionLinks]="true"
+    [autoHide]="true"
+    class="pagination flex gap-2 text-gray-700">
+  </pagination-controls>
 </div>
+
+</div>
+
+  <!-- Modal -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+      <app-product-form
+        [product]="selectedProduct"
+        (save)="onSave($event)"
+        (cancel)="onCancel()">
+      </app-product-form>
+      <button (click)="onCancel()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-lg font-bold">✕</button>
+    </div>
+  </div>
+
+
 

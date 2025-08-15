@@ -1,0 +1,30 @@
+
+ <div class="lg:hidden fixed top-14 left-4 z-50">
+  <button class="p-2 text-gray-600 bg-white hover:bg-gray-200 rounded shadow-md transition duration-200 h-8 w-8 flex items-center justify-center"
+        
+          aria-label="Toggle sidebar"
+          [attr.aria-expanded]="isOpen"
+    (click)="toggleSidebar()"
+ >
+  ☰
+</button>
+</div>
+<!-- Sidebar -->
+<div
+  class="fixed left-0 bg-white shadow-lg w-64 transform transition-transform duration-300 z-40 md:relative md:translate-x-0"
+  [class.-translate-x-full]="!isOpen && innerWidth < 768"
+  style="top:64px; bottom:64px; height:calc(100vh - 128px);"
+>
+  <div class="p-4 border-b flex items-center justify-between">
+    <h2 class="text-xl font-bold text-gray-700">Menú</h2>
+
+    <!-- Botón cerrar solo en mobile -->
+    <button class="md:hidden text-gray-500" (click)="toggleSidebar()">✕</button>
+  </div>
+
+  <nav class="p-4 space-y-2 overflow-y-auto h-full">
+    <a routerLink="/" class="block p-2 rounded hover:bg-gray-100">🏠 Inicio</a>
+    <a routerLink="/products" class="block p-2 rounded hover:bg-gray-100">📦 Productos</a>
+    <a routerLink="/tasks" class="block p-2 rounded hover:bg-gray-100">✅ Tareas</a>
+  </nav>
+</div>
