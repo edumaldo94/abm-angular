@@ -1,9 +1,4 @@
-<div class="max-w-6xl mx-auto p-4 space-y-6 pt-20">
-  <!-- pt-20 agrega padding-top suficiente para que no tape el header -->
-  <!-- Header de página -->
-
-
-
+<div class="max-w-4xl mx-auto p-2 space-y-0 pt-20">
 
    <!-- Buscador -->
  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
@@ -23,42 +18,40 @@
   </div>
 
   <!-- Tabla con paginación -->
-  <div class="overflow-x-auto rounded shadow">
-    <table class="min-w-full bg-white divide-y divide-gray-200">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="px-4 py-2 text-left text-white font-medium">#</th>
-          <th class="px-4 py-2 text-left text-white font-medium">Nombre</th>
-          <th class="px-4 py-2 text-left text-white font-medium">Precio</th>
-          <th class="px-4 py-2 text-left text-white font-medium">Stock</th>
-          <th class="px-4 py-2 text-left text-white font-medium">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200">
-        <tr *ngFor="let pro of filteredProducts | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; let i = index" class="hover:bg-gray-50">
-          <td class="px-4 py-2">{{ i + 1 + (page-1)*itemsPerPage }}</td>
-          <td class="px-4 py-2">{{ pro.name }}</td>
-          <td class="px-4 py-2">{{ pro.price | currency:'USD':'symbol' }}</td>
-          <td class="px-4 py-2">{{ pro.stock }}</td>
-          <td class="px-4 py-2 flex gap-2">
-            <button (click)="onEdit(pro)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded transition">Editar</button>
-            <button (click)="onDelete(pro.id)" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Controles de paginación -->
-<div class="flex justify-end mt-4">
-  <pagination-controls
-    (pageChange)="page = $event"
-    [maxSize]="5"
-    [directionLinks]="true"
-    [autoHide]="true"
-    class="pagination flex gap-2 text-gray-700">
-  </pagination-controls>
+<div class="overflow-x-auto rounded shadow">
+  <table class="min-w-full bg-white divide-y divide-gray-200">
+    <thead class="bg-gray-800 text-white">
+      <tr>
+        <th class="px-4 py-2 text-left font-medium">#</th>
+        <th class="px-4 py-2 text-left font-medium">Nombre</th>
+        <th class="px-4 py-2 text-left font-medium">Precio</th>
+        <th class="px-4 py-2 text-left font-medium">Stock</th>
+        <th class="px-4 py-2 text-left font-medium">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <tr *ngFor="let pro of paginatedProducts; let i = index"
+          class="hover:bg-gray-50">
+        <td class="px-4 py-2">{{ i + 1 + pageIndex * pageSize }}</td>
+        <td class="px-4 py-2">{{ pro.name }}</td>
+        <td class="px-4 py-2">{{ pro.price | currency:'USD':'symbol' }}</td>
+        <td class="px-4 py-2">{{ pro.stock }}</td>
+        <td class="px-4 py-2 flex gap-2">
+          <button (click)="onEdit(pro)" class="bg-yellow-400 hover:bg-yellow-500 text-white px-2 py-1 rounded transition">Editar</button>
+          <button (click)="onDelete(pro.id)" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<!-- Paginador Material -->
+<mat-paginator
+  [length]="filteredProducts.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20]"
+  (page)="onPageChange($event)">
+</mat-paginator>
 
 </div>
 

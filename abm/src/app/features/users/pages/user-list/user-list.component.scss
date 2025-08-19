@@ -1,0 +1,126 @@
+::ng-deep .user-list-paginator .mat-mdc-paginator {
+  background-color: rgb(65, 65, 65);
+  color: rgb(255, 255, 255);
+border-end-end-radius: 8px;
+border-end-start-radius: 8px;
+}
+
+/* Botones (prev/next) */
+::ng-deep .user-list-paginator .mat-mdc-icon-button {
+  color: rgb(214, 214, 214) !important;   /* estado normal */
+
+}
+
+/* Íconos dentro de los botones */
+::ng-deep .user-list-paginator .mat-mdc-icon-button .mat-mdc-paginator-icon {
+  fill: rgb(247, 247, 247) !important;     /* color ícono habilitado */
+
+}
+
+/* Botones deshabilitados */
+::ng-deep .user-list-paginator .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+  fill: rgb(136, 136, 136) !important;       /* color ícono deshabilitado */
+
+}
+
+/* Select de cantidad por página */
+/* Contenedor general */
+::ng-deep .user-list-paginator .mat-mdc-select  {
+
+  color: rgb(0, 0, 0);                        /* texto */
+  border-radius: 6px;                  /* bordes redondeados */
+
+
+}
+
+/* Texto seleccionado dentro del rectángulo */
+::ng-deep .user-list-paginator .mat-mdc-select-value {
+  color: rgb(0, 0, 0) !important;
+  font-size: 15px !important;
+
+}
+::ng-deep .user-list-paginator mat-form-field {
+  color: rgb(170, 9, 9) !important; /* color del texto del select */
+  background-color: rgb(223, 223, 223) !important; /* color de fondo del select */
+  border-radius: 6px;     /* bordes redondeados */
+}
+::ng-deep .user-list-paginator .mat-mdc-select-arrow{
+  color: rgb(0, 0, 0) !important; /* color de la flecha del select */
+
+}
+::ng-deep .user-list-paginator  mat-select-7-panel {
+  background-color: rgb(141, 2, 2) !important; /* color de fondo del panel del select */
+  color: rgb(0, 0, 0) !important; /* color del texto del panel del select */
+
+}
+
+.btn-create {
+  background-color: #e1f5fe;
+  color: rgb(0, 0, 0);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  font-size: 14px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-color: #b7c1db;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+.btn-create:hover {
+  background-color: #0077d8;
+  color: rgb(255, 255, 255);
+  border-color: #416799;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.788);
+}
+
+.btn-edit {
+  background-color: #e1eee2;
+  color: rgb(0, 0, 0);
+  padding: 0.4rem 1rem;
+ border-radius: 100px;
+ font-size: 14px;
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+ border-color: #b7dbb9;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+.btn-edit:hover {
+  background-color: #448d23;
+  color: rgb(255, 255, 255);
+   border-color: #5d9941;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.788);
+}
+
+.btn-delet {
+  background-color: #d87979;
+  color: rgb(0, 0, 0);
+  padding: 5px 17px;
+  border-radius: 100px;
+ font-size: 14px;
+ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+border-color: #af5e5e;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+.btn-delet:hover {
+  background-color: #e04141;
+  color: rgb(255, 255, 255);
+     border-color: #994141;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.788);
+}
+

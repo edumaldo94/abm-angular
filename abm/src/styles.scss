@@ -1,2 +1,17 @@
+@use '@angular/material' as mat;
 @import "tailwindcss";
 /* tailwind.config.css o tu CSS global */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+:root {
+  @include mat.paginator-overrides((
+    container-text-color: rgb(32, 110, 228),
+    container-background-color: rgb(223, 223, 223),
+    enabled-icon-color: rgb(9, 60, 202),
+    disabled-icon-color: rgb(20, 96, 238),
+
+  ));
+}

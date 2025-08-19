@@ -6,10 +6,13 @@ import { ProductFormComponent } from '../../components/product-form/product-form
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table'; // opcional si usás <mat-table>
+
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, ProductFormComponent,NgxPaginationModule, FormsModule],
+  imports: [CommonModule, ProductFormComponent,NgxPaginationModule, FormsModule, MatPaginatorModule, MatTableModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
@@ -18,10 +21,12 @@ export class ProductListComponent implements OnInit {
   selectedProduct: Product | null = null;
   isModalOpen = false;
 
+
   page: number = 1; // 👈 Agregado: controla la página actual
 searchText: string = '';
 itemsPerPage: number = 5;
-
+pageIndex = 0;
+  pageSize = 5;
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
@@ -71,5 +76,15 @@ get filteredProducts(): Product[] {
     p.name.toLowerCase().includes(this.searchText.toLowerCase())
   );
 }
+get paginatedProducts(): Product[] {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredProducts.slice(start, end);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
 
 }
