@@ -1,8 +1,15 @@
-export interface User{
+export interface User {
   id: number;
   name: string;
   email: string;
+  photo?: string; 
+  birthDate?: string;
+  dni: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  country?: string;
   role: 'admin' | 'user';
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

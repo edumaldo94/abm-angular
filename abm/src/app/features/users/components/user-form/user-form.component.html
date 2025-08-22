@@ -1,38 +1,122 @@
-<h2>{{ user ? 'Editar usuario' : 'Crear usuario' }}</h2>
+<h2 class="text-2xl font-semibold mb-6 border-b pb-2">
+  {{ user ? 'Editar usuario' : 'Crear usuario' }}
+</h2>
 
-<form class="form" [formGroup]="form" (ngSubmit)="submitForm()">
+<form class="space-y-6" [formGroup]="form" (ngSubmit)="submitForm()">
 
-  <!-- Nombre -->
-  <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-  <input type="text" formControlName="name" placeholder="Nombre"
-    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-  <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500 text-sm mt-1">
-    El nombre es obligatorio.
+  <!-- Foto centrada -->
+  <div class="flex flex-col items-center">
+    <label for="photo" class="block text-sm font-medium text-gray-700 mb-2">Foto de perfil</label>
+    <input
+      id="photo"
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      class="block text-sm text-gray-500
+             file:mr-4 file:py-2 file:px-4
+             file:rounded file:border-0
+             file:text-sm file:font-semibold
+             file:bg-blue-50 file:text-blue-700
+             hover:file:bg-blue-100"
+    />
+    <div *ngIf="form.value.photo" class="mt-4">
+      <img [src]="form.value.photo" alt="Vista previa"
+           class="w-32 h-32 rounded-full border object-cover">
+    </div>
   </div>
 
-  <!-- Rol -->
-  <label for="role" class="block text-sm font-medium text-gray-700 mt-4">Rol</label>
-  <select formControlName="role"
-    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <option value="" disabled selected>Seleccione un rol</option>
-    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-  </select>
-  <div *ngIf="form.get('role')?.invalid && form.get('role')?.touched" class="text-red-500 text-sm mt-1">
-    El rol es obligatorio.
+  <!-- Datos en grid responsive -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Nombre -->
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+      <input id="name" type="text" formControlName="name" placeholder="Nombre"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <div *ngIf="f.name.touched && f.name.invalid" class="text-red-500 text-xs mt-1">
+        <div *ngIf="f.name.errors?.['required']">El nombre es obligatorio.</div>
+        <div *ngIf="f.name.errors?.['minlength']">Mínimo 3 caracteres.</div>
+      </div>
+    </div>
+
+    <!-- Rol -->
+    <div>
+      <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+      <select id="role" formControlName="role"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled>Seleccione un rol</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      <div *ngIf="f.role.touched && f.role.invalid" class="text-red-500 text-xs mt-1">
+        El rol es obligatorio.
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="ejemplo@email.com"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <div *ngIf="f.email.touched && f.email.invalid" class="text-red-500 text-xs mt-1">
+        <div *ngIf="f.email.errors?.['required']">El email es obligatorio.</div>
+        <div *ngIf="f.email.errors?.['email']">Formato de email inválido.</div>
+      </div>
+    </div>
+
+    <!-- DNI -->
+    <div>
+      <label for="dni" class="block text-sm font-medium text-gray-700">DNI</label>
+      <input id="dni" type="text" formControlName="dni" placeholder="12345678"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <div *ngIf="f.dni.touched && f.dni.invalid" class="text-red-500 text-xs mt-1">
+        <div *ngIf="f.dni.errors?.['required']">El DNI es obligatorio.</div>
+        <div *ngIf="f.dni.errors?.['pattern']">El DNI debe ser numérico (7-10 dígitos).</div>
+      </div>
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+      <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+      <input id="phone" type="text" formControlName="phone" placeholder="+54 9 11 1234 5678"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <div *ngIf="f.phone.touched && f.phone.invalid" class="text-red-500 text-xs mt-1">
+        <div *ngIf="f.phone.errors?.['pattern']">Formato inválido. Ej: +5491112345678</div>
+      </div>
+    </div>
+
+    <!-- Fecha de nacimiento -->
+    <div>
+      <label for="birthDate" class="block text-sm font-medium text-gray-700">Fecha de nacimiento</label>
+      <input id="birthDate" type="date" formControlName="birthDate"
+        class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Dirección -->
+    <div formGroupName="address" class="grid grid-cols-2 gap-4 col-span-2">
+      <div>
+        <label for="city" class="block text-sm font-medium text-gray-700">Ciudad</label>
+        <input id="city" type="text" formControlName="city"
+          class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label for="country" class="block text-sm font-medium text-gray-700">País</label>
+        <input id="country" type="text" formControlName="country"
+          class="mt-1 border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+    </div>
+
   </div>
 
-  <!-- Email -->
-  <label for="email" class="block text-sm font-medium text-gray-700 mt-4">Email</label>
-  <input type="email" formControlName="email" placeholder="Email"
-    class="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-  <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm mt-1">
-    El email es obligatorio.
+  <!-- Botones -->
+  <div class="flex gap-4 justify-end">
+    <button type="submit" [disabled]="form.invalid"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+      {{ user ? 'Actualizar' : 'Crear' }} Usuario
+    </button>
+    <button type="button" (click)="cancel.emit()"
+      class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+      Cancelar
+    </button>
   </div>
-
-  <!-- Botón -->
-  <button type="submit" [disabled]="form.invalid"
-    class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition">
-    {{ user ? 'Actualizar' : 'Crear' }} Usuario
-  </button>
 
 </form>

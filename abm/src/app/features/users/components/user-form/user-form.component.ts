@@ -1,15 +1,14 @@
-
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { User } from '../../../../shared/models/user.models';
 
 @Component({
   selector: 'app-user-form',
-  standalone: true, // ✅ Necesario si usas imports
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss'] // ✅ Plural y array
+  styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnChanges {
   @Input() user: User | null = null;
@@ -20,35 +19,97 @@ export class UserFormComponent implements OnChanges {
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      photo: [''],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       role: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-    });
-
-   
-    this.form.valueChanges.subscribe(values => {
-      if (values.email && !values.email.includes('@')) {
-        console.warn('⚠ Email inválido');
-      }
+      email: this.fb.control('', [Validators.required, Validators.email, this.emailFormatValidator()]),
+      dni: ['', [Validators.required, Validators.pattern(/^\d{7,10}$/)]],
+      phone: ['', [Validators.pattern(/^\+?\d{7,15}$/)]],
+      birthDate: ['', []], // luego se puede agregar validator personalizado
+      address: this.fb.group({
+        city: ['', Validators.required],
+        country: ['', Validators.required],
+      })
     });
   }
 
+  // ✅ Getter para acceder a controles fácilmente en el HTML
+  get f() {
+    return this.form.controls as {
+       photo: AbstractControl;
+      name: AbstractControl;
+      role: AbstractControl;
+      email: AbstractControl;
+      dni: AbstractControl;
+      phone: AbstractControl;
+      birthDate: AbstractControl;
+      address: FormGroup<{
+        city: AbstractControl;
+        country: AbstractControl;
+      }>;
+    };
+  }
+
+
+
+  emailFormatValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && !value.includes('@')) {
+        return { emailFormat: true };
+      }
+      return null;
+    };
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['user'] && this.user) {
-      this.form.patchValue(this.user);
+     if (changes['user'] && this.user) {
+      this.form.patchValue({
+        ...this.user,
+        address: {
+          city: this.user.city || '',
+          country: this.user.country || ''
+        },
+        photo: this.user.photo || ''
+      });
     } else {
-      this.form.reset({ name: '', role: '', email: '' });
+      this.form.reset({
+        name: '',
+        role: '',
+        email: '',
+        dni: '',
+        phone: '',
+        birthDate: '',
+        address: { city: '', country: '' }
+      });
+    }
+  }
+  // ✅ Función para cargar la imagen y mostrar preview
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.form.patchValue({ photo: reader.result });
+      };
+      reader.readAsDataURL(file);
     }
   }
 
   submitForm() {
     if (this.form.invalid) {
-      alert('Datos inválidos');
+      this.form.markAllAsTouched(); // ✅ muestra errores en todos los campos
       return;
     }
-    this.save.emit(this.form.value);
-    this.form.reset({ name: '', role: '', email: '' });
+
+    const userData: Omit<User, 'id'> = {
+      ...this.form.value,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.save.emit(userData);
+    this.form.reset();
   }
 }
